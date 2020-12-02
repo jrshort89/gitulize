@@ -1,6 +1,5 @@
 class Document < ApplicationRecord
-    belongs_to :repository, optional: true
-    belongs_to :commit, optional: true
+    belongs_to :repository
     has_many :versions
     validates :name, :uniqueness => {:scope => :repository_id}
 

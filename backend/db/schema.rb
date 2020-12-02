@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 2020_11_30_172915) do
 
   create_table "documents", force: :cascade do |t|
     t.string "name"
-    t.integer "commit_id"
     t.integer "repository_id"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
@@ -38,6 +37,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_172915) do
   create_table "versions", force: :cascade do |t|
     t.string "content"
     t.integer "stage"
+    t.integer "commit_id"
     t.integer "document_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

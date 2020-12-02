@@ -1,5 +1,6 @@
 class Version < ApplicationRecord
   belongs_to :document
+  belongs_to :commit, optional: true
   validates :stage, :uniqueness => { :scope => :document_id }
 
   def have_stage?(stage)
