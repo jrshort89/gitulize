@@ -45,3 +45,7 @@ form {
     -o-transition: height, 0.5s linear;
     transition: height, 0.5s linear;
 }
+
+.description{
+    font-size: x-small;
+}

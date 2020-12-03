@@ -142,12 +142,44 @@ class GitCommand {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(commitData),
     });
-    const json = response.json();
-    console.log(json);
+    const json = await response.json();
+    this.moveToRepositoryList(json.commit_message, json.versions);
+    // this.moveToRepositoryList("commit message", ["script.js", "jake.html", "jake123s"]);
   }
 
   moveToRepositoryList(commitMessage, fileNames) {
-    
+    console.log("IN!");
+    console.log(commitMessage, fileNames);
+
+    let divItem = document.createElement("div");
+    divItem.className = "item";
+    divItem.innerHTML = "<i class='large circle outline icon'></i>";
+
+    let divContent = document.createElement("div");
+    divContent.className = "content";
+    divContent.innerHTML = `
+    <a class="header">${commitMessage}</a>
+    <div class="description">Commit Date</div>
+    `;
+
+    fileNames.forEach(function (fileName) {
+      let divList = document.createElement("div");
+      divList.className = "list";
+      divList.innerHTML = `
+        <div class="item">
+            <i class="file alternate middle aligned icon"></i>
+            <div class="content">
+                <div class="header">${fileName}</div>
+            </div>
+        </div>
+        `;
+      divContent.append(divList);
+    });
+    divItem.append(divContent);
+    this.repoArea.append(divItem);
+
+    const stagingArea = [...this.stagingArea.querySelectorAll(".item")];
+    stagingArea.forEach((list) => list.remove());
   }
 
   updateVerstionStage(versionIds, stage) {
