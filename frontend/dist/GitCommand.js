@@ -10,7 +10,7 @@ class GitCommand {
   gitCheckoutDotBtn = document.getElementById("git-checkout-dot");
 
   constructor(url) {
-    this.url = url
+    this.url = url;
     this.gitButtonSetup();
     this.gitCommandRunSetup();
   }
@@ -131,19 +131,24 @@ class GitCommand {
   async gitCommit(command_split) {
     //jake
     const childArray = Array.from(this.stagingArea.childNodes);
-    const versionIds = childArray.map(elm => elm.dataset.versionId);
+    const versionIds = childArray.map((elm) => elm.dataset.versionId);
     const commitData = {
-        versionIds: versionIds,
-        commit_message: command_split[3].replace(/['"]/g, ''),
-        date_time: new Date
+      versionIds: versionIds,
+      commit_message: command_split[3].replace(/['"]/g, ""),
+      date_time: new Date(),
     };
     const response = await fetch(`${this.url}/commits`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(commitData)
-    })
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(commitData),
+    });
     const json = response.json();
-}
+    console.log(json);
+  }
+
+  moveToRepositoryList(commitMessage, fileNames) {
+    
+  }
 
   updateVerstionStage(versionIds, stage) {
     const requestURL = `${this.url}/versions/bulk`;

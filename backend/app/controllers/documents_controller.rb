@@ -15,8 +15,9 @@ class DocumentsController < ApplicationController
         if vers.id == nil
             vers.save
             render json: vers
+        else
+            render status: 500
         end
-        render status: 500
     end
 
     private
