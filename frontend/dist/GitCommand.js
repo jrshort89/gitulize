@@ -129,6 +129,19 @@ class GitCommand {
 
     async gitCommit(command_split) {
         //jake
+        const childArray = Array.from(this.stagingArea.childNodes);
+        const versionIds = childArray.map(elm => elm.dataset.versionId);
+        const commitData = {
+            versionIds: versionIds,
+            commit_message: command_split[3].replace(/['"]/g, ''),
+            date_time: new Date
+        };
+        const response = await fetch("http://localhost:3000/commits", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(commitData)
+        })
+        const json = response.json();
     }
 
     updateVerstionStage(versionIds, stage) {
