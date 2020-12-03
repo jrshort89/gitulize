@@ -9,7 +9,8 @@ class GitCommand {
   gitResetDotBtn = document.getElementById("git-reset-dot");
   gitCheckoutDotBtn = document.getElementById("git-checkout-dot");
 
-  constructor() {
+  constructor(url) {
+    this.url = url
     this.gitButtonSetup();
     this.gitCommandRunSetup();
   }
@@ -136,7 +137,7 @@ class GitCommand {
         commit_message: command_split[3].replace(/['"]/g, ''),
         date_time: new Date
     };
-    const response = await fetch("http://localhost:3000/commits", {
+    const response = await fetch(`${this.url}/commits`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(commitData)
@@ -145,7 +146,7 @@ class GitCommand {
 }
 
   updateVerstionStage(versionIds, stage) {
-    const requestURL = "http://localhost:3000/versions/bulk";
+    const requestURL = `${this.url}/versions/bulk`;
     const data = {
       versionIds: versionIds,
       stage: stage,
@@ -182,7 +183,7 @@ class GitCommand {
   }
 
   deleteVerstionStage(versionIds) {
-    const requestURL = "http://localhost:3000/versions/bulk";
+    const requestURL = `${this.url}/versions/bulk`;
     const data = {
       versionIds: versionIds,
     };
