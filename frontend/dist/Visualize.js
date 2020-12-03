@@ -1,7 +1,8 @@
 class Visualize {
-    constructor() {
+    constructor(url) {
+        this.url = url
         this.createDocument();
-        this.getData('http://localhost:3000/repositories', this.renderOptions);
+        this.getData(`${this.url}/repositories`, this.renderOptions);
         this.selectEvent();
         this.closeError.addEventListener('click', () => this.fileError.style.display = 'none');
         this.repoButton.addEventListener('click', () => this.repoDiv.classList.toggle('repo-div'));
@@ -61,7 +62,7 @@ class Visualize {
                 name: name,
                 repository_id: repoId
             }
-            fetch('http://localhost:3000/documents', {
+            fetch(`${this.url}/documents`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -86,7 +87,7 @@ class Visualize {
             const data = {
                 name: event.target.name.value
             }
-            fetch('http://localhost:3000/repositories', {
+            fetch(`${this.url}/repositories`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data)
@@ -111,7 +112,7 @@ class Visualize {
     }
 
     renderGitLists(id) {
-        fetch(`http://localhost:3000/repositories/${id}/documents`)
+        fetch(`${this.url}/repositories/${id}/documents`)
             .then(res => res.json())
             .then(data => this.createListItems(data))
     }
