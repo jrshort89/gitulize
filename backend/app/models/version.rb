@@ -9,6 +9,10 @@ class Version < ApplicationRecord
            }.count == 1
   end
 
+  def have_other_stage?
+    return self.document.versions.count > 1
+  end
+
   def other_version
     return self.document.versions.filter { |version|
              version.stage == (self.stage == 1 ? 2 : 1)

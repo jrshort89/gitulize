@@ -23,11 +23,15 @@ class VersionsController < ApplicationController
   end
 
   def delete_bulk
-    versions = Version.where(id: params["versionIds"]).destroy_all()
-    document_ids = versions.map { |version|
-      version.document_id
+    versions_ids = params["versionIds"]
+    versions = Version.where(id: params["versionIds"])
+    have_other_stage_version_ids = versions.filter { |version|
+      version.have_other_stage?
+    }.map { |version|
+      version.id
     }
-    Document.where(id: document_ids).delete_all()
-    render status: :ok
+    # byebug
+    versions = Version.where(id: have_other_stage_version_ids).destroy_all()
+    render json: {ids: have_other_stage_version_ids}
   end
 end
