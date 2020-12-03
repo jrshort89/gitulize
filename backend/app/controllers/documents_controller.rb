@@ -10,12 +10,13 @@ class DocumentsController < ApplicationController
     def create
         #only find if the repo doesn't have this file
         new_doc = Document.find_or_initialize_by documentParams
-        vers = new_doc.createVersion
         new_doc.save
+        vers = new_doc.createVersion
         if vers.id == nil
             vers.save
             render json: vers
         end
+        render status: 500
     end
 
     private
