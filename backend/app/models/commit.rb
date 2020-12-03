@@ -1,3 +1,3 @@
 class Commit < ApplicationRecord
-    has_many :documents
+    has_many :versions
 end

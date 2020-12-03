@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   patch '/versions/bulk', to: 'versions#update_bulk'
   delete '/versions/bulk', to: 'versions#delete_bulk'
 
-  resources :versions
+  # resources :versions
   resources :documents
   resources :commits
   resources :repositories
