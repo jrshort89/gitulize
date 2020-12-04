@@ -4,6 +4,6 @@ class Repository < ApplicationRecord
     # , :uniqueness => {:scope => :user_id}
 
     def commits
-        
+        self.documents
     end
 end

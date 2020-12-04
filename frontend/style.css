@@ -1,21 +1,25 @@
+.container {
+    padding-top: 1rem;
+}
+
 form {
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 #working-directory-area {
-    border: 2px solid red;
+    /* border: 2px solid red; */
     overflow-y: auto;
     height: 220px;
 }
 
 #staging-area {
-    border: 2px solid green;
+    /* border: 2px solid green; */
     overflow-y: auto;
     height: 220px;
 }
 
 #repository-area {
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
     overflow-y: auto;
     height: 220px;
 }
@@ -48,4 +52,25 @@ form {
 
 .description{
     font-size: x-small;
+}
+
+.git-command-list-container{
+    overflow-y: auto;
+}
+
+#git-command-list{
+    padding: 0 15px;
+}
+
+.red{
+    color: red;
+}
+
+.turquoise{
+    color: turquoise;
+}
+
+.error-message{
+    color: red;
+    font-style: italic;
 }
