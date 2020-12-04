@@ -126,28 +126,35 @@ class Visualize {
                 switch (version.stage) {
                     case 1:
                         list = this.workingDir;
+                        this.createListItem(object.name, version.id, list);
                         break;
                     case 2:
                         list = this.stagingArea;
+                        this.createListItem(object.name, version.id, list);
                         break;
                     case 3:
                         list = this.repoArea;
                         const commits = this.commitMessageHandler(object.versions, list);
-                        console.log(json);
-                        list.append(commits[version.commit_id].elm);
-                        this.createListItem(object.name, version.id, commits[version.commit_id].elm);
+                        if (!listsCreated[version.commit_id]) {
+                            list.append(commits[version.commit_id].elm);
+                            listsCreated[version.commit_id] = document.getElementById(version.commit_id);
+                            this.commitFileHandler(object.name, version.id, listsCreated[version.commit_id]);
+                        } else {
+                            this.commitFileHandler(object.name, version.id, listsCreated[version.commit_id]);
+                        }
                         break;
                 }
-                // this.createListItem(object.name, version.id, list);
             });
         });
     }
 
-    repoAreaList(commitMessage, commitDate) {
+    repoAreaList(commitMessage, commitDate, commitId) {
         let divItem = document.createElement("div");
         divItem.className = "item";
         divItem.innerHTML = "<i class='large circle outline icon'></i>";
         let divContent = document.createElement("div");
+        divContent.id = commitId;
+        divContent.dataset.id = commitId;
         divContent.className = "content";
         divContent.innerHTML = `
         <a class="header">${commitMessage}</a>
@@ -157,14 +164,30 @@ class Visualize {
         return divItem;
     }
 
-    commitMessageHandler(objVers, listItem) {
+    commitFileHandler(fileName, versionId, folder) {
+        let divList = document.createElement("div");
+        divList.className = "list";
+        divList.innerHTML = `
+            <div class="item" id="${versionId}">
+                <i class="file alternate middle aligned icon"></i>
+                <div class="content">
+                    <div class="header">${fileName}</div>
+                </div>
+            </div>
+            `;
+        folder.append(divList);
+    }
+
+    commitMessageHandler(objVers) {
         const commits = {};
         objVers.forEach(version => {
-            const message = version.commit.commit_message;
-            const date = version.commit.date_time;
-            if (!commits[version.commit_id]) {
-                const elm = this.repoAreaList(message, date, listItem);
-                commits[version.commit_id] = { message: message, elm };
+            if (version.stage === 3) {
+                const message = version.commit.commit_message;
+                const date = version.commit.date_time;
+                if (!commits[version.commit_id]) {
+                    const elm = this.repoAreaList(message, date, version.commit_id);
+                    commits[version.commit_id] = { message: message, elm };
+                }
             }
         })
         return commits;

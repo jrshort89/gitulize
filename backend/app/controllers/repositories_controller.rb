@@ -16,7 +16,6 @@ class RepositoriesController < ApplicationController
 
     def getDocuments
         repo = Repository.find(params[:id]).documents
-        # commits = Commit.where(id: params[:id]).map {|com| com.versions}
         render json: repo.to_json(include: {versions: {include: :commit}})
     end
 
