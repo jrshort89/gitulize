@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="keywords" content="git, git visualization, gitulize">
+    <meta name="description" content="Learn about git areas">
+    <meta name="author" content="Jake and Ray">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Gitulize</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -39,7 +43,6 @@
             </form>
         </div>
 
-
         <form id="doc-form">
             <div class="ui input focus">
                 <input name="fileName" type="text" placeholder="Create a file name...">
@@ -57,19 +60,24 @@
         </form>
 
         <br>
-
         <div class="ui grid">
-            <div class="three column row">
-                <div class="column git-area" id="working-directory-area">
-                    <h3>Working Directory</h3>
-                    <div class="ui relaxed divided list" id="working-directory-area-list">
-                        <!-- working-directory-list -->
-                    </div>
+            <div class="three column row" style="padding: 5px;">
+                <div class="column git-area">
+                    <h3>Working Directory Area</h3>
                 </div>
-                <div class="column git-area" id="staging-area">
-                    <h3>Staging</h3>
-                    <div class="ui relaxed divided list" id="staging-area-list">
-                        <!-- <div class="item">
+                <div class="column git-area">
+                    <h3>Staging Area</h3>
+                </div>
+                <div class="column git-area">
+                    <h3>Repository Area</h3>
+                </div>
+            </div>
+        </div>
+        <div class="ui grid">
+            <div class="three column row" style="padding: 0px;">
+                <div class="column git-area ui raised segment" id="working-directory-area">
+                    <div class="ui relaxed divided list" id="working-directory-area-list">
+                    <!-- <div class="item">
                             <i class="large file alternate middle aligned icon"></i>
                             <div class="content">
                                 <a class="header">index.html</a>
@@ -78,15 +86,14 @@
                         <!-- working-directory-list -->
                     </div>
                 </div>
-                <div class="column git-area" id="repository-area">
-                    <h3>Repository</h3>
+                <div class="column git-area ui raised segment" id="staging-area">
+                    <div class="ui relaxed divided list" id="staging-area-list">
+                        <!-- working-directory-list -->
+                    </div>
+                </div>
+                <div class="column git-area ui raised segment" id="repository-area">
                     <div class="ui relaxed divided list" id="repository-area-list">
-                        <!-- <div class="item">
-                            <i class="large file alternate middle aligned icon"></i>
-                            <div class="content">
-                                <a class="header">style.css</a>
-                            </div>
-                        </div> -->
+                        <!-- repository-list -->
                         <div class="item">
                             <i class="large folder icon"></i>
                             <div class="content">
@@ -116,27 +123,52 @@
         </div>
 
         <div class="ui grid">
-            <div class="one column row list" style="border: 2px black solid; height: 200px">
+            <div class="one column row list git-command-list-container" style="border: 1px black solid; height: 200px">
                 <div class="ui list" id="git-command-list">
                     <div class="item">
-                        <div class="content">
-                            // ♥ git add .
+                        <div class="header"><span class="turquoise">// </span><span class="red">♥ </span>Welcome to Gitulize. Enjoy!</div>
+                        <div class="error-message">
+                            created by 
+                            <!-- <a href="https://github.com/jrshort89">Jake</a>  -->
+                            <a href="https://github.com/jrshort89" target="_blank">
+                            <button class="mini ui button" style="padding:3px 5px; background-color: #24292E; color: white;">
+                                <i class="github icon"></i>
+                                Jake
+                            </button>
+                            </a>
+                            and 
+                            <a href="https://github.com/raaynaldo" target="_blank">
+                            <button class="mini ui button" style="padding:3px 5px; background-color: #24292E; color: white;">
+                                <i class="github icon"></i>
+                                Ray
+                            </button>
+                            </a>
+                            with ♥
                         </div>
                     </div>
-                    <div class="item">
-                        git reset .
-                    </div>
+                    <!-- git command list -->
                 </div>
             </div>
         </div>
 
         <div class="ui equal width grid">
-            <button class="ui red button column" id="git-add-dot">git add .</button>
-            <button class="ui orange button column" id="git-commit">git commit -m</button>
-            <button class="ui yellow button column" id="git-reset-soft">git reset --soft HEAD~1</button>
-            <button class="ui olive button column" id="git-reset-dot">git reset .</button>
-            <button class="ui green button column" id="git-checkout-dot">git checkout .</button>
+            <div class="column">
+                <button class="ui red button fluid" id="git-add-dot" style="height: 100%;">git add .</button>
+            </div>
+            <div class="column">
+                <button class="ui orange button fluid" id="git-commit" style="height: 100%;">git commit -m</button>
+            </div>
+            <div class="column">
+                <button class="ui yellow button fluid" id="git-reset-soft" style="height: 100%;">git reset --soft HEAD~1</button>
+            </div>
+            <div class="column">
+                <button class="ui olive button fluid" id="git-reset-dot" style="height: 100%;">git reset .</button>
+            </div>
+            <div class="column">
+                <button class="ui green button fluid" id="git-checkout-dot" style="height: 100%;">git checkout .</button>
+            </div>
         </div>
+
         <form class="ui form" id="git-command-form">
             <div class="field">
                 <label>Git Command</label>
