@@ -118,6 +118,7 @@ class Visualize {
     }
 
     createListItems(json) {
+        const listsCreated = {};
         json.forEach(object => {
             object.versions.forEach(version => {
                 let list;
@@ -130,11 +131,42 @@ class Visualize {
                         break;
                     case 3:
                         list = this.repoArea;
+                        const commits = this.commitMessageHandler(object.versions, list);
+                        console.log(json);
+                        list.append(commits[version.commit_id].elm);
+                        this.createListItem(object.name, version.id, commits[version.commit_id].elm);
                         break;
                 }
-                this.createListItem(object.name, version.id, list);
+                // this.createListItem(object.name, version.id, list);
             });
         });
+    }
+
+    repoAreaList(commitMessage, commitDate) {
+        let divItem = document.createElement("div");
+        divItem.className = "item";
+        divItem.innerHTML = "<i class='large circle outline icon'></i>";
+        let divContent = document.createElement("div");
+        divContent.className = "content";
+        divContent.innerHTML = `
+        <a class="header">${commitMessage}</a>
+        <div class="description">${commitDate}</div>
+        `;
+        divItem.append(divContent);
+        return divItem;
+    }
+
+    commitMessageHandler(objVers, listItem) {
+        const commits = {};
+        objVers.forEach(version => {
+            const message = version.commit.commit_message;
+            const date = version.commit.date_time;
+            if (!commits[version.commit_id]) {
+                const elm = this.repoAreaList(message, date, listItem);
+                commits[version.commit_id] = { message: message, elm };
+            }
+        })
+        return commits;
     }
 
     createListItem(text, versionId, list) {

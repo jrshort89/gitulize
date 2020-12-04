@@ -16,10 +16,8 @@ class RepositoriesController < ApplicationController
 
     def getDocuments
         repo = Repository.find(params[:id]).documents
-        # render json: DocumentSerializer.new(repo, {
-        #     include: [:versions]
-        # })
-        render json: repo.to_json(include: [:versions])
+        commits = Commit.where(id: params[:id]).map {|com| com.versions}
+        render json: repo.to_json(include: {versions: {include: :commit}}), commits
     end
 
     def create
