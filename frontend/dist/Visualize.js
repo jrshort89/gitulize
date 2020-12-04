@@ -86,6 +86,7 @@ class Visualize {
             const data = {
                 name: event.target.name.value
             }
+            if (data.name === '') throw (alert('Blank repository name not allowed!'));
             fetch(`${this.url}/repositories`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

@@ -40,6 +40,10 @@ form {
     display: none;
 }
 
+.fit {
+    display: inline-block;
+}
+
 .hidden {
     height: 0px;
     -webkit-transition: height, 0.5s linear;
