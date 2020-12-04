@@ -146,10 +146,9 @@ class GitCommand {
     //jake
     const quotes = ["'", '"'];
     if (
-      quotes.includes((q) => q == command_split[3][0]) &&
-      quotes.includes(
-        (q) => q == command_split[3][command_split[3].length - 1]
-      ) &&
+      command_split[3] &&
+      quotes.includes(command_split[3][0]) &&
+      quotes.includes(command_split[3][command_split[3].length - 1]) &&
       command_split[2] == "-m"
     ) {
       const childArray = Array.from(this.stagingArea.childNodes);
@@ -165,7 +164,7 @@ class GitCommand {
         body: JSON.stringify(commitData),
       });
       const json = await response.json();
-      this.moveToRepositoryList(json.commit_message, json.versions);
+      this.moveToRepositoryList(json.commit, json.versions);
       // this.moveToRepositoryList("commit message", ["script.js", "jake.html", "jake123s"]);
       this.addTerminalCommand(command);
     } else {
@@ -176,16 +175,17 @@ class GitCommand {
     }
   }
 
-  moveToRepositoryList(commitMessage, fileNames) {
+  moveToRepositoryList(commit, fileNames) {
     let divItem = document.createElement("div");
+    divItem.dataset.id = commit.id;
     divItem.className = "item";
     divItem.innerHTML = "<i class='large circle outline icon'></i>";
 
     let divContent = document.createElement("div");
     divContent.className = "content";
     divContent.innerHTML = `
-    <a class="header">${commitMessage}</a>
-    <div class="description">Commit Date</div>
+    <a class="header">${commit.commit_message}</a>
+    <div class="description">${commit.date_time}</div>
     `;
 
     fileNames.forEach(function (fileName) {

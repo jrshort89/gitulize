@@ -122,6 +122,7 @@ class Visualize {
         json.forEach(object => {
             object.versions.forEach(version => {
                 let list;
+                console.log(version.stage)
                 switch (version.stage) {
                     case 1:
                         list = this.workingDir;
