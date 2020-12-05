@@ -32,6 +32,18 @@ form {
     display: none;
 }
 
+.repo-error {
+    display: none;
+}
+
+.file-error {
+    display: none;
+}
+
+.fit {
+    display: inline-block;
+}
+
 .hidden {
     height: 0px;
     -webkit-transition: height, 0.5s linear;
@@ -50,27 +62,27 @@ form {
     transition: height, 0.5s linear;
 }
 
-.description{
+.description {
     font-size: x-small;
 }
 
-.git-command-list-container{
+.git-command-list-container {
     overflow-y: auto;
 }
 
-#git-command-list{
+#git-command-list {
     padding: 0 15px;
 }
 
-.red{
+.red {
     color: red;
 }
 
-.turquoise{
+.turquoise {
     color: turquoise;
 }
 
-.error-message{
+.error-message {
     color: red;
     font-style: italic;
 }

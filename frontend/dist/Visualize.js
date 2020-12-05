@@ -4,7 +4,6 @@ class Visualize {
         this.createDocument();
         this.getData(`${this.url}/repositories`, this.renderOptions);
         this.selectEvent();
-        this.closeError.addEventListener('click', () => this.fileError.style.display = 'none');
         this.repoButton.addEventListener('click', () => this.repoDiv.classList.toggle('repo-div'));
         this.createRepo();
     }
@@ -56,7 +55,7 @@ class Visualize {
     createDocument() {
         this.fileForm.addEventListener("submit", (event) => {
             event.preventDefault();
-            const name = event.target.fileName.value;
+            const name = event.target.fileName.value.replace(' ', '');
             const repoId = document.getElementById("repo-options").value;
             const data = {
                 name: name,
@@ -74,9 +73,9 @@ class Visualize {
                     this.fileForm.reset();
                     this.createListItem(name, version.id, this.workingDir)
                 })
-                .catch(() => {
-                    this.fileError.style.display = "inline-block";
-                    setTimeout(() => this.fileError.style.display = 'none', 5000);
+                .catch((err) => {
+                    this.fileError.classList.toggle('file-error');
+                    setTimeout(() => this.fileError.classList.toggle('file-error'), 5000);
                 })
         });
     }
@@ -87,6 +86,7 @@ class Visualize {
             const data = {
                 name: event.target.name.value
             }
+            if (data.name === '') throw (alert('Blank repository name not allowed!'));
             fetch(`${this.url}/repositories`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -105,8 +105,8 @@ class Visualize {
                     this.repoForm.reset();
                 })
                 .catch(err => {
-                    this.repoErr.style.display = "inline-block";
-                    setTimeout(() => this.repoErr.style.display = 'none', 5000);
+                    this.repoErr.classList.toggle('repo-error');
+                    setTimeout(() => this.repoErr.classList.toggle('repo-error'), 5000);
                 })
         });
     }
