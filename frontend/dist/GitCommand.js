@@ -9,6 +9,8 @@ class GitCommand {
   gitResetDotBtn = document.getElementById("git-reset-dot");
   gitCheckoutDotBtn = document.getElementById("git-checkout-dot");
 
+  repoList = document.getElementById("repo-options");
+
   constructor(url) {
     this.url = url;
     this.gitButtonSetup();
@@ -54,6 +56,13 @@ class GitCommand {
     if (command_split[0] == "git" && command_split[1] == "add") {
       // git add change to stage 2
       this.gitAdd(command_split, command);
+    } else if (
+      command_split[0] == "git" &&
+      command_split[1] == "reset" &&
+      command_split[2] == "--soft"
+    ) {
+      // git reset --soft delete commit and update stage to 2 if there is stage 2 just delete the version
+      this.gitResetSoft(command_split, command);
     } else if (command_split[0] == "git" && command_split[1] == "reset") {
       // git reset change to stage 1
       this.gitReset(command_split, command);
@@ -145,6 +154,7 @@ class GitCommand {
   async gitCommit(command_split, command) {
     //jake
     const quotes = ["'", '"'];
+    command_split[3] = command_split.slice(3, command_split.length).join(" ");
     if (
       command_split[3] &&
       quotes.includes(command_split[3][0]) &&
@@ -153,25 +163,52 @@ class GitCommand {
     ) {
       const childArray = Array.from(this.stagingArea.childNodes);
       const versionIds = childArray.map((elm) => elm.dataset.versionId);
-      const commitData = {
-        versionIds: versionIds,
-        commit_message: command_split[3].replace(/['"]/g, ""),
-        date_time: new Date(),
-      };
-      const response = await fetch(`${this.url}/commits`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(commitData),
-      });
-      const json = await response.json();
-      this.moveToRepositoryList(json.commit, json.versions);
-      // this.moveToRepositoryList("commit message", ["script.js", "jake.html", "jake123s"]);
-      this.addTerminalCommand(command);
+      if (versionIds.length > 0) {
+        const commitData = {
+          versionIds: versionIds,
+          commit_message: command_split[3].replace(/['"]/g, ""),
+          date_time: new Date(),
+          repository_id: this.repoList.value,
+        };
+        const response = await fetch(`${this.url}/commits`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(commitData),
+        });
+        const json = await response.json();
+        this.moveToRepositoryList(json.commit, json.versions);
+        // this.moveToRepositoryList("commit message", ["script.js", "jake.html", "jake123s"]);
+        this.addTerminalCommand(command);
+      } else {
+        this.addTerminalCommand(command, "Nothing to commit");
+      }
     } else {
       this.addTerminalCommand(
         command,
         "Don't forget to put commit a message :)"
       );
+    }
+  }
+
+  async gitResetSoft(command_split, command) {
+    let commits = [...this.repoArea.children];
+    const head = command_split[3].split("~");
+    const step = +head[1];
+    if (head[0].toUpperCase() == "HEAD") {
+      if (head.length <= 2 && step > 0 && step < commits.length) {
+        const response = await this.deleteCommit(step);
+        this.removeCommitList(response, commits);
+
+        this.addTerminalCommand(command);
+      } else if (!head[1] || head[1] == 0) {
+        console.log("HEAD");
+        //Do Nothing
+        this.addTerminalCommand(command);
+      } else {
+        this.addTerminalCommand(command, "The commit is not found");
+      }
+    } else {
+      this.addTerminalCommand(command, "Sorry, I don't know that.");
     }
   }
 
@@ -202,7 +239,7 @@ class GitCommand {
       divContent.append(divList);
     });
     divItem.append(divContent);
-    this.repoArea.append(divItem);
+    this.repoArea.prepend(divItem);
 
     const stagingArea = [...this.stagingArea.querySelectorAll(".item")];
     stagingArea.forEach((list) => list.remove());
@@ -265,6 +302,34 @@ class GitCommand {
       return ids.includes(+div.dataset.versionId);
     });
     deletedList.forEach((div) => div.remove());
+  }
+
+  deleteCommit(step) {
+    const requestURL = `${this.url}/commits/bulk`;
+    const data = {
+      repository_id: this.repoList.value,
+      step: step,
+    };
+    const requestObj = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+    return fetch(requestURL, requestObj).then((res) => res.json());
+  }
+
+  removeCommitList(response, commitList) {
+    console.log(response, commitList);
+		//TODO: Continue here
+    response.commit_ids.forEach(function (commit_id) {
+      let commit = commitList.find(function (cL) {
+        console.log({cL, value: cL.querySelector("div").id, commit_id});
+        return cL.querySelector("div").id == commit_id;
+      });
+      console.log(commitList);
+      console.log(commit);
+      commit.remove();
+    });
   }
 
   addTerminalCommand(gitCommand, errorMessage = null) {

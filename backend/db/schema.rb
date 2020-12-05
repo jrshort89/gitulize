@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 2020_11_30_172915) do
   create_table "commits", force: :cascade do |t|
     t.string "commit_message"
     t.datetime "date_time"
+    t.integer "repository_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
