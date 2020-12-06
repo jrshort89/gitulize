@@ -61,13 +61,13 @@ class CommitsController < ApplicationController
       Version.where(id: version_should_update_to_stage2_ids).update_all(stage: 2, commit_id: nil)
     end
 
-    updated_version = Version.where(id: version_should_update_to_stage2_ids)
+    updated_version = Version.where(id: version_should_update_to_stage2_ids).order("document_id")
     deleted_commit_ids = commits.map { |commit| commit.id }
 
     Commit.where(id: deleted_commit_ids).destroy_all()
 
     # byebug
-    render json: { move_to_staging: updated_version, commit_ids: deleted_commit_ids }
+    render json: { move_to_staging: updated_version.as_json(include: [:document]), commit_ids: deleted_commit_ids }
   end
 
   private
