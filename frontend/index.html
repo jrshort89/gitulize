@@ -65,13 +65,13 @@
         <div class="ui grid">
             <div class="three column row" style="padding: 5px;">
                 <div class="column git-area">
-                    <h3>Working Directory Area</h3>
+                    <h3 data-tooltip="This is where your files live when being worked on. These files will all have modifications to live here.">Working Directory</h3>
                 </div>
                 <div class="column git-area">
-                    <h3>Staging Area</h3>
+                    <h3 data-tooltip="Staged changes">Staging Directory</h3>
                 </div>
                 <div class="column git-area">
-                    <h3>Repository Area</h3>
+                    <h3 data-tooltip="Commited files">Repository</h3>
                 </div>
             </div>
         </div>
@@ -101,19 +101,21 @@
                             <div class="content">
                                 <a class="header">Commit Message</a>
                                 <div class="description">Commit Date</div>
-                                <div class="list">
-                                    <div class="item">
-                                        <i class="file alternate middle aligned icon"></i>
-                                        <div class="content">
-                                            <div class="header">File Name</div>
+                                <div id="file-drop">
+                                    <div class="list">
+                                        <div class="item">
+                                            <i class="file alternate middle aligned icon"></i>
+                                            <div class="content">
+                                                <div class="header">File Name</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="list">
-                                    <div class="item">
-                                        <i class="file alternate middle aligned icon"></i>
-                                        <div class="content">
-                                            <div class="header">File Name</div>
+                                    <div class="list">
+                                        <div class="item">
+                                            <i class="file alternate middle aligned icon"></i>
+                                            <div class="content">
+                                                <div class="header">File Name</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +175,7 @@
 
         <form class="ui form" id="git-command-form">
             <div class="field">
-                <label>Git Command</label>
+                <label>Git Command<i class="question circle icon" data-tooltip="Add details to explain the commands" data-position="top right"><i class="question circle icon" ></i></i></label>
                 <input type="text" placeholder="git command here..." name="git_command" id="git-command" value>
             </div>
             <button class="ui button" type="submit">Run</button>

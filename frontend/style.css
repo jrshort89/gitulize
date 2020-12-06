@@ -44,7 +44,7 @@ form {
     display: inline-block;
 }
 
-.hidden {
+.hiddenFile {
     height: 0px;
     -webkit-transition: height, 0.5s linear;
     -moz-transition: height, 0.5s linear;
@@ -53,7 +53,7 @@ form {
     transition: height, 0.5s linear;
 }
 
-.hidden.open {
+.hiddenFile.open {
     height: 200px;
     -webkit-transition: height, 0.5s linear;
     -moz-transition: height, 0.5s linear;
