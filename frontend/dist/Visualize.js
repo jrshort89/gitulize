@@ -122,7 +122,6 @@ class Visualize {
         json.forEach(object => {
             object.versions.forEach(version => {
                 let list;
-                console.log(version.stage)
                 switch (version.stage) {
                     case 1:
                         list = this.workingDir;
@@ -135,13 +134,12 @@ class Visualize {
                     case 3:
                         list = this.repoArea;
                         const commits = this.commitMessageHandler(object.versions, list);
-                        if (!listsCreated[version.commit_id]) {
-                            list.append(commits[version.commit_id].elm);
-                            //! document.getElementById(version.commit_id) --> it will be messed up refer to line 158 and 172
-                            listsCreated[version.commit_id] = document.getElementById(version.commit_id);
-                            this.commitFileHandler(object.name, version.id, listsCreated[version.commit_id]);
+                        if (!listsCreated[`commit${version.commit_id}`]) {
+                            list.append(commits[`commit${version.commit_id}`].elm);
+                            listsCreated[`commit${version.commit_id}`] = document.getElementById(`commit${version.commit_id}`);
+                            this.commitFileHandler(object.name, version.id, listsCreated[`commit${version.commit_id}`]);
                         } else {
-                            this.commitFileHandler(object.name, version.id, listsCreated[version.commit_id]);
+                            this.commitFileHandler(object.name, version.id, listsCreated[`commit${version.commit_id}`]);
                         }
                         break;
                 }
@@ -151,12 +149,12 @@ class Visualize {
 
     repoAreaList(commitMessage, commitDate, commitId) {
         let divItem = document.createElement("div");
+        divItem.dataset.id = commitId; //commit12
         divItem.className = "item";
         divItem.innerHTML = "<i class='large circle outline icon'></i>";
         let divContent = document.createElement("div");
         //! danger if use id="${versionId}"
-        divContent.id = commitId;
-        divContent.dataset.id = commitId;
+        divContent.id = `commit${commitId}`;
         divContent.className = "content";
         divContent.innerHTML = `
         <a class="header">${commitMessage}</a>
@@ -187,9 +185,9 @@ class Visualize {
             if (version.stage === 3) {
                 const message = version.commit.commit_message;
                 const date = version.commit.date_time;
-                if (!commits[version.commit_id]) {
+                if (!commits[`commit${version.commit_id}`]) {
                     const elm = this.repoAreaList(message, date, version.commit_id);
-                    commits[version.commit_id] = { message: message, elm };
+                    commits[`commit${version.commit_id}`] = { message: message, elm };
                 }
             }
         })
