@@ -137,6 +137,7 @@ class Visualize {
                         const commits = this.commitMessageHandler(object.versions, list);
                         if (!listsCreated[version.commit_id]) {
                             list.append(commits[version.commit_id].elm);
+                            //! document.getElementById(version.commit_id) --> it will be messed up refer to line 158 and 172
                             listsCreated[version.commit_id] = document.getElementById(version.commit_id);
                             this.commitFileHandler(object.name, version.id, listsCreated[version.commit_id]);
                         } else {
@@ -153,6 +154,7 @@ class Visualize {
         divItem.className = "item";
         divItem.innerHTML = "<i class='large circle outline icon'></i>";
         let divContent = document.createElement("div");
+        //! danger if use id="${versionId}"
         divContent.id = commitId;
         divContent.dataset.id = commitId;
         divContent.className = "content";
@@ -167,6 +169,7 @@ class Visualize {
     commitFileHandler(fileName, versionId, folder) {
         let divList = document.createElement("div");
         divList.className = "list";
+        //! danger if use id="${versionId}"
         divList.innerHTML = `
             <div class="item" id="${versionId}">
                 <i class="file alternate middle aligned icon"></i>

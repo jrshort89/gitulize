@@ -22,4 +22,4 @@ versionAdapterJS1 = Version.find_or_create_by(content: "content adapter.js", sta
 
 versionHTML2 = Version.find_or_create_by(content: "content index.html", stage: "2", document_id: documentHTML.id, commit_id: nil)
 
-versionCSS3 = Version.find_or_create_by(content: "content style.css", stage: "3", document_id: documentCSS.id, commit_id: nil)
+versionCSS3 = Version.find_or_create_by(content: "content style.css", stage: "2", document_id: documentCSS.id, commit_id: nil)
