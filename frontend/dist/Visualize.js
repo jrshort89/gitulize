@@ -153,7 +153,6 @@ class Visualize {
         divItem.className = "item";
         divItem.innerHTML = "<i class='large circle outline icon'></i>";
         let divContent = document.createElement("div");
-        //! danger if use id="${versionId}"
         divContent.id = `commit${commitId}`;
         divContent.className = "content";
         divContent.innerHTML = `
@@ -167,7 +166,6 @@ class Visualize {
     commitFileHandler(fileName, versionId, folder) {
         let divList = document.createElement("div");
         divList.className = "list";
-        //! danger if use id="${versionId}"
         divList.innerHTML = `
             <div class="item" id="${versionId}">
                 <i class="file alternate middle aligned icon"></i>
