@@ -182,7 +182,7 @@ class Visualize {
         objVers.forEach(version => {
             if (version.stage === 3) {
                 const message = version.commit.commit_message;
-                const date = version.commit.date_time;
+                const date = version.commit.date_to_s;
                 if (!commits[`commit${version.commit_id}`]) {
                     const elm = this.repoAreaList(message, date, version.commit_id);
                     commits[`commit${version.commit_id}`] = { message: message, elm };

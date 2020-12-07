@@ -197,7 +197,7 @@ class GitCommand {
     if (head[0].toUpperCase() == "HEAD") {
       if (head.length <= 2 && step > 0 && step < commits.length) {
         const response = await this.deleteCommit(step);
-        this.removeCommitList(response, commits);
+        this.removeCommitList(response, commits, this.stagingArea);
 
         this.addTerminalCommand(command);
       } else if (!head[1] || head[1] == 0) {
@@ -220,9 +220,11 @@ class GitCommand {
 
     let divContent = document.createElement("div");
     divContent.className = "content";
+    console.log(commit)
+    console.log(commit.date_time);
     divContent.innerHTML = `
     <a class="header">${commit.commit_message}</a>
-    <div class="description">${commit.date_time}</div>
+    <div class="description">${commit.date_to_s}</div>
     `;
 
     fileNames.forEach(function (fileName) {
@@ -318,17 +320,39 @@ class GitCommand {
     return fetch(requestURL, requestObj).then((res) => res.json());
   }
 
-  removeCommitList(response, commitList) {
+  removeCommitList(response, commitList, stagingList) {
     console.log(response, commitList);
-		//TODO: Continue here
+    //TODO: Continue here
     response.commit_ids.forEach(function (commit_id) {
       let commit = commitList.find(function (cL) {
-        console.log({cL, value: cL.querySelector("div").id, commit_id});
-        return cL.querySelector("div").id == commit_id;
+        console.log({ cL, value: cL.querySelector("div").id, commit_id });
+        return cL.dataset.id == commit_id;
       });
       console.log(commitList);
       console.log(commit);
       commit.remove();
+    });
+
+    response.move_to_staging.forEach(function (version) {
+      const itemDiv = document.createElement("div");
+      itemDiv.classList.add("item");
+      itemDiv.dataset.fileName = version.document.name;
+      itemDiv.dataset.versionId = version.id;
+
+      const fileI = document.createElement("i");
+      fileI.className += "large file alternate middle aligned icon";
+
+      const contentDiv = document.createElement("div");
+      contentDiv.classList.add("content");
+
+      const contentLink = document.createElement("a");
+      contentLink.classList.add("header");
+      contentLink.textContent = version.document.name;
+
+      contentDiv.append(contentLink);
+      itemDiv.append(fileI, contentDiv);
+
+      stagingList.append(itemDiv);
     });
   }
 
