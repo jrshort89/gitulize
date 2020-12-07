@@ -6,7 +6,8 @@ class CommitsController < ApplicationController
     intIds = params["versionIds"].map(&:to_i)
     Version.where(id: intIds).update_all(stage: 3, commit_id: commit.id)
     versions = Version.where(id: intIds)
-    render json: { versions: versions.map { |version| version.document.name }, commit: commit }
+    byebug
+    render json: { versions: versions.map { |version| version.document.name }, commit: commit.as_json(methods: :date_to_s) }
   end
 
   def remove_from_repository

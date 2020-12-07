@@ -220,9 +220,11 @@ class GitCommand {
 
     let divContent = document.createElement("div");
     divContent.className = "content";
+    console.log(commit)
+    console.log(commit.date_time);
     divContent.innerHTML = `
     <a class="header">${commit.commit_message}</a>
-    <div class="description">${commit.date_time}</div>
+    <div class="description">${commit.date_to_s}</div>
     `;
 
     fileNames.forEach(function (fileName) {
