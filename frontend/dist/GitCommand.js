@@ -143,8 +143,8 @@ class GitCommand {
       );
       const versionId = [+fileDiv.dataset.versionId];
       workingDirList = [fileDiv];
-      await this.deleteVerstionStage(versionId, 1);
-      this.removeListsToOtherArea(workingDirList);
+      const response = await this.deleteVerstionStage(versionId, 1);
+      this.removeListsToOtherArea(workingDirList, response.ids);
       this.addTerminalCommand(command);
     } else {
       this.addTerminalCommand(command, "Sorry, File is not found.");
@@ -300,6 +300,7 @@ class GitCommand {
   }
 
   removeListsToOtherArea(list, ids) {
+    console.log()
     let deletedList = list.filter(function (div) {
       return ids.includes(+div.dataset.versionId);
     });

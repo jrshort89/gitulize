@@ -47,7 +47,7 @@
         <form id="doc-form">
             <div class="ui input focus">
                 <input name="fileName" type="text" placeholder="Create a file name...">
-                <input type="submit" value="Create File" class="ui green button">
+                <input type="submit" value="Create/Update File" class="ui green button">
             </div>
             <br>
             <div class="file-error" id="file-error">
@@ -65,13 +65,13 @@
         <div class="ui grid">
             <div class="three column row" style="padding: 5px;">
                 <div class="column git-area">
-                    <h3 data-tooltip="This is where your files live when being worked on. These files will all have modifications to live here.">Working Directory</h3>
+                    <h3 data-tooltip="This is where your files live when being worked on. Only new and modified existing files are shown.">Working Directory</h3>
                 </div>
                 <div class="column git-area">
-                    <h3 data-tooltip="Staged changes">Staging Directory</h3>
+                    <h3 data-tooltip="Staged changes-This is where files are kept after being 'added'">Staging Directory</h3>
                 </div>
                 <div class="column git-area">
-                    <h3 data-tooltip="Commited files">Repository</h3>
+                    <h3 data-tooltip="Commited files-Files are now saved in the repository where they can then be merged or pushed.">Repository</h3>
                 </div>
             </div>
         </div>
@@ -175,7 +175,7 @@
 
         <form class="ui form" id="git-command-form">
             <div class="field">
-                <label>Git Command<i class="question circle icon" data-tooltip="Add details to explain the commands" data-position="top right"><i class="question circle icon" ></i></i></label>
+                <label>Git Command<i class="question circle icon" data-tooltip="Use the buttons or type the commands yourself!" data-position="top left"><i class="question circle icon" ></i></i></label>
                 <input type="text" placeholder="git command here..." name="git_command" id="git-command" value>
             </div>
             <button class="ui button" type="submit">Run</button>
